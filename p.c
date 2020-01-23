@@ -126,6 +126,10 @@ void sath1()
 		}
 	}
 }
+void sath2()
+{
+	//miyonam for bezanam ke tamam khone haro bere baraye faz 2 wa 3 wali rah zibaii(!) nist:((((
+}
 int main()
 {
 	if(start()==0)
