@@ -6,10 +6,8 @@
 #include<conio.h>
 #define M 100
 
-char playfiled[M][M] ;	//baraye khondn file
-int i=0,j=0, sath=1;    //i mishe tedad satr ha, j mishe tedad soton ha j amodie          j mishe tedad soton ha,      sath ham ke 
-int food[M][2];          //??!!??!!
-int wall[M][2];          //manee haro neshon mide;
+char playfiled[M][M] ;
+int i=0,j=0, sath=1;    //i mishe tedad satr ha, j mishe tedad soton ha j amodie 
 int check[M][M];
 int waynum;
 int theway[2*M][2];
@@ -17,7 +15,7 @@ int numberOfFood;
 struct pacman{
 	int x;
 	int y;
-}mypacman;
+}mypacman={0,0};
 void gotoxy( int x, int y)
 {
 	COORD coord; 
@@ -49,12 +47,11 @@ int start()
 		if(r=='#')
 		{
 			sath=2;
-			//wall[i][j]=1;
 			check[i][j]=2;
 		}
 		if(r=='*')
 			numberOfFood++;	
-		if(r=='{' || r=='}' || r==',' || r=='\'')
+		if(r=='{' || r=='}' || r==',' || r=='\'' || r==' ')
 		{
 			continue;
 		}	
@@ -75,6 +72,7 @@ int start()
 		}
 		r=fgetc(ptf);
 	}  
+	fclose(ptf);
 }
 void printfiled()
 {
@@ -87,13 +85,13 @@ void printfiled()
 		printf("\n");
 	}
 }
-int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone 
+int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone,age tamom kard food ro baedesh bere print kone age na bere rsh haye baedi 
 {
-	if(numberOfFood==0)//yani ghabli akharie
+	if(numberOfFood==0)//yani "ghabli" akharie
 	{
 		return 2;
 	}
-	if(check[satr][soton]!=0)//ye jaii ke ghablan checkesh kardam yaaa manee
+	if(check[satr][soton]!=0)//ye jaii ke ghablan checkesh kardam ya ye manee
 	{
 		return 0;
 	}
@@ -101,7 +99,7 @@ int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone
 	{
 		return 0;
 	}
-	///////// dargheire in sorat waredesh misahm
+	// dargheire in sorat waredesh misahm
 	check[satr][soton]=1;
 	if(playfiled[satr][soton]=='*')
 	{
@@ -109,7 +107,7 @@ int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone
 	}
 	int a[4]={0} ,sum=0;
 	theway[waynum][0]=satr;
-	theway[waynum][0]=soton+1;
+	theway[waynum][1]=soton+1;
 	if(a[0]=findaway(satr ,soton+1)==0)
 	{
 		theway[waynum][0]=satr;
@@ -154,7 +152,7 @@ int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone
 void showpath()
 {
 	printfiled();
-	for(int l=waynum-2 ;l>0 ;l++)
+	for(int l=waynum-1 ;l>0 ;l++)
 	{
 		gotoxy(theway[l][1]+1 , theway[l][0]);
 		printf("\b%c" ,'1');
@@ -228,27 +226,21 @@ void sath1()
 		}
 	}
 }
-//void sath2()
-//{
-//	//miyonam for bezanam ke tamam khone haro bere baraye faz 2 wa 3 wali rah zibaii(!) nist:((((
-//	
-//}
 int main()
 {
 	if(start()==0)
 	{
 		return 0;
 	}
-	if(sath==1)
-	{
-		sath1();
-	}
-	if(sath>=2)
+//	if(sath==1)
+//	{
+//		sath1();
+//	}
+	if(sath)
 	{
 		findaway(mypacman.x , mypacman.y);
+		showpath();
 	}
 }
-/////////////////////////////////////////////////////////////////////////tamaom kardan sath 2 wa 3  wa behtar kardan sath yekam
-/////////////////////////////////////////////////////////////////////////dibag kardan
 
 
