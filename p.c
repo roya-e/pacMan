@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<windows.h>
-#include<ctype.h>
 #include<string.h>
 #include<conio.h>
 #define M 100
@@ -37,42 +36,51 @@ int start()
 		printf("\nERROR : Cant open the file");
 		return 0;
 	}
-	r=fgetc(ptf);
-	if(r!='0')
+//	r=fgetc(ptf);
+//	if(r!='0')
+//	{
+//		sath=3;
+//	}
+	while(feof(ptf)==0)
 	{
-		sath=3;
-	}
-	while(r!=EOF)
-	{
+		printf("%c" ,playfiled);
+		r=fgetc(ptf);
 		if(r=='#')
 		{
-			sath=2;
+//			sath=2;
 			check[i][j]=2;
 		}
 		if(r=='*')
 			numberOfFood++;	
-		if(r=='{' || r=='}' || r==',' || r=='\'' || r==' ')
+		if(r=='{' || r=='}' || r==',' || r=='\\' || r==' ' )
 		{
 			continue;
 		}	
-		else if(r!='\n')
+		if(r=='1' || r=='0' || r=='*' || r=='#')
 			playfiled[i][j]=r;
-		else if(r=='0')
+		if(r=='0')
 		{
 			mypacman.x=i;
 			mypacman.y=j;
 		}	
-		else if(r=='\n')
+		if(r=='\n')
 		{
 			j++;
+			i=0;
 		}
-		else
+		if(r=='1' || r=='0' || r=='*' || r=='#')
 		{
 			i++;
 		}
-		r=fgetc(ptf);
-	}  
-	fclose(ptf);
+//		printf(" r:%c  " , ,r);
+////		sleep(1);
+////		printf("%d+++" ,numberOfFood);
+////		sleep(1);
+//		printf("  i=%d  j=%d  " ,i ,j);
+//		sleep(1);
+	} 
+	 
+//	fclose(ptf);
 }
 void printfiled()
 {
@@ -120,10 +128,15 @@ int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone,age ta
 			{
 				theway[waynum][0]=satr-1;
 				theway[waynum][0]=soton;
-				a[3]=findaway(satr-1 ,soton);
+				if(a[3]=findaway(satr-1 ,soton)==0)
+				{
+					theway[waynum][0]=0;
+					theway[waynum][0]=0;
+				}
 			}
 		}
 	}
+	
 	for(int v=0 ;v<4 ;v++);
 		sum+=a[i];
 				
@@ -152,6 +165,7 @@ int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone,age ta
 void showpath()
 {
 	printfiled();
+	//////////////////////////////////////////////////////////////////////////////
 	for(int l=waynum-1 ;l>0 ;l++)
 	{
 		gotoxy(theway[l][1]+1 , theway[l][0]);
@@ -239,6 +253,14 @@ int main()
 	if(sath)
 	{
 		findaway(mypacman.x , mypacman.y);
+		for(int b=0; b<i ;b++){
+			for(int v=0 ;v<j ;v++)
+			{
+				printf("%d" ,check[i][j]);
+			}
+			printf("\n");
+			sleep(1);
+		}
 		showpath();
 	}
 }
