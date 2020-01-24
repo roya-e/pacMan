@@ -108,12 +108,20 @@ int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone
 		numberOfFood--;
 	}
 	int a[4]={0} ,sum=0;
+	theway[waynum][0]=satr;
+	theway[waynum][0]=soton+1;
 	if(a[0]=findaway(satr ,soton+1)==0)
 	{
+		theway[waynum][0]=satr;
+		theway[waynum][0]=soton-1;
 		if(a[1]=findaway(satr ,soton-1)==0)
 		{
+			theway[waynum][0]=satr+1;
+			theway[waynum][0]=soton;
 			if(a[2]=findaway(satr+1 ,soton)==0)
 			{
+				theway[waynum][0]=satr-1;
+				theway[waynum][0]=soton;
 				a[3]=findaway(satr-1 ,soton);
 			}
 		}
@@ -145,10 +153,21 @@ int findaway(int satr ,int soton)//mikham bere hame rah haro emtehan kone
 }
 void showpath()
 {
-	for(int l=0 ;l<=waynum ;l++)
+	printfiled();
+	for(int l=waynum-2 ;l>0 ;l++)
 	{
-		
+		gotoxy(theway[l][1]+1 , theway[l][0]);
+		printf("\b%c" ,'1');
+		sleep(1);
 	}
+	gotoxy(theway[0][1]+1 , theway[0][0]);
+	printf("\b%c" ,'0');
+	gotoxy(0,i+1);
+	printf("Pacman finished eating:)");
+	sleep(1);
+	system("cls");
+	printf("The Game Has End");
+	
 }
 void sath1()
 {
@@ -201,6 +220,7 @@ void sath1()
 				{
 					gotoxy(0 ,6);
 					printf("Pacman finished eating:)");
+					sleep(1);
 					system("cls");
 					printf("The Game Has End");
 				}
